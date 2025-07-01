@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <title>Kursprognose</title>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</head>
+<body>
+    <h1>Kursprognose</h1>
+    <form method="post">
+        <label for="symbol">Wertpapier:</label>
+        <select name="symbol" id="symbol">
+            <option value="SPY" {% if selected == "SPY" %}selected{% endif %}>SPY</option>
+            <option value="DAX" {% if selected == "DAX" %}selected{% endif %}>DAX</option>
+            <option value="MSFT" {% if selected == "MSFT" %}selected{% endif %}>MSFT</option>
+            <option value="AAPL" {% if selected == "AAPL" %}selected{% endif %}>AAPL</option>
+        </select>
+
+        <label for="forecast">Prognosezeitraum:</label>
+        <select name="forecast" id="forecast">
+            <option value="1d">1 Tag</option>
+            <option value="1w">1 Woche</option>
+        </select>
+
+        <button type="submit">Anzeigen</button>
+    </form>
+
+    {% if chart_json %}
+    <div id="chart"></div>
+    <script>
+        var graph = {{ chart_json | safe }};
+        Plotly.newPlot('chart', graph.data, graph.layout);
+    </script>
+    {% endif %}
+</body>
+</html>
